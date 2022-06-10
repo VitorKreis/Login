@@ -5,7 +5,7 @@ const user = new mongoose.Schema({
     name: String,
     cpf: Number,
     email: String,
-    passworld: Number
+    password: String
 });
 
 module.exports = user;

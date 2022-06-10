@@ -14,22 +14,38 @@ app.use(express.static('public'))
 
 //confg Mongoose
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://127.0.0.1:27017/login').then(()=>{
+mongoose.connect('mongodb://0.0.0.0:27017/login').then(()=>{
     console.log('Conexao com o banco de dados realizada')
 })
 
 
+//Session
+const session = require('express-session')
+app.use(session({
+    secret: ".cmvxndlkjafhoeirwq023487",
+    cookie: {maxAge  : 300000}
+}))
+
+function Log (req,res, next){
+    if(req.session.log == true){
+        next()
+    }else{
+        res.redirect('/Login')
+    }
+}
+module.exports = Log
+
 
 //Rotas
-app.get('/', (req,res) =>{
-res.send("ola")
-})
+
 
 //Users
 const userCont = require('./SignUp/SingUpController')
 const user = require('./SignUp/CreateUser')
-const Users = require('./SignUp/SingUpController')
 app.use('/', userCont)
+
+
+var Users = mongoose.model('Users', user)
 
 
 app.listen(2022, ()=>{
