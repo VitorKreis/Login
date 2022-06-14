@@ -27,7 +27,7 @@ app.use(session({
 }))
 
 function Log (req,res, next){
-    if(req.session.log == true){
+    if(req.session.log != undefined){
         next()
     }else{
         res.redirect('/Login')
@@ -37,6 +37,10 @@ module.exports = Log
 
 
 //Rotas
+
+app.get('/Info',  (req,res)=>{
+    res.render('Info')
+})
 
 
 //Users

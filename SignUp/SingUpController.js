@@ -58,24 +58,27 @@ router.post('/autheticate', (req,res)=>{
     var password = req.body.password
 
     Users.findOne({"email" : email}).then((correct)=>{
+
         if(correct != undefined){
             var pass = bcrypt.compareSync(password, correct.password)
 
-            if(pass == true){
+            if(pass == undefined){
 
+                res.redirect('/Login')
+
+            }else{
+                
                 req.session.log = {
                     email: correct.email,
                     password: correct.password
                 }
 
                 res.redirect('/')
-
-            }else{
-               res.redirect('/Login')
             }
         }else{
             res.redirect('/Login')
         }
+        
     })
 
 
